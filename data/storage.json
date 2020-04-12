@@ -11,5 +11,10 @@
     {"id":9,"username":"asd","email":"ass@aaa.ee","content":"asdasdasdasdas","state":0},
     {"id":10,"username":"aaaa","email":"wqweqwe@as.ww","content":"asdasda","state":0},
     {"id":11,"username":"zxc","email":"qwe2@aac.aa","content":"123123","state":0}
+  ],
+  "user_last_id":2,
+  "user":[
+    {"id":1,"username":"admin","password":"123"},
+    {"id":2,"username":"test","password":"123"}
   ]
 }

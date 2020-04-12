@@ -1,12 +1,13 @@
 <?php
+use App\Adapter\FileStorageAdapter;
+use App\Manager\{TaskManager,UserManager};
+use App\Controller\{IndexController,AuthController};
+
+
 ob_end_clean();
 if (preg_match('/\.(?:png|jpg|jpeg|gif|ico)$/', $_SERVER["REQUEST_URI"])) {
     return false;
 }
-
-use App\Adapter\FileStorageAdapter;
-use App\Manager\TaskManager;
-use App\Controller\IndexController;
 
 function taskAutoloader($className) {
     $path = str_replace('App\\', 'src' . DIRECTORY_SEPARATOR, $className);
@@ -31,4 +32,10 @@ $action = 'index';
 if (isset($_GET['action'])) {
     $action = $_GET['action'];
 }
+
+if (in_array($action, ['login', 'logout'])) {
+    $userManager = new UserManager($storageAdapter);
+    $controller = new AuthController($userManager);
+}
+
 $controller->handleAction($action, $_REQUEST);

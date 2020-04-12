@@ -1,3 +1,8 @@
+<div class="row justify-content-right">
+    <div class="col offset-11 mt-4">
+        <button class="btn btn-primary" onclick="loginRedirect();">Login</button>
+    </div>
+</div>
 <div class="row justify-content-center">
     <div class="col col-3">
         <h3 class="row justify-content-center mt-4">
@@ -79,3 +84,8 @@
         </section>
     </div>
 </div>
+<script>
+    function loginRedirect() {
+        window.location = '/?action=login';
+    }
+</script>

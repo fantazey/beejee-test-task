@@ -1,4 +1,9 @@
 <?php
+ob_end_clean();
+if (preg_match('/\.(?:png|jpg|jpeg|gif|ico)$/', $_SERVER["REQUEST_URI"])) {
+    return false;
+}
+
 use App\Adapter\FileStorageAdapter;
 use App\Manager\TaskManager;
 use App\Controller\IndexController;
@@ -26,5 +31,4 @@ $action = 'index';
 if (isset($_GET['action'])) {
     $action = $_GET['action'];
 }
-
 $controller->handleAction($action, $_REQUEST);

@@ -21,7 +21,7 @@ class IndexView
 
     public function __destruct()
     {
-        include $this->getLayoutPath('base');
+        require $this->getLayoutPath('base');
     }
 
     public function render()
@@ -32,6 +32,6 @@ class IndexView
     }
 
     private function getLayoutPath($layout) {
-        return __DIR__ . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . $layout . '.phtml';
+        return __DIR__ . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . $layout . '.php';
     }
 }

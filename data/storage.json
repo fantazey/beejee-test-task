@@ -8,7 +8,7 @@
       "state": 0
     },
     {
-      "id": "4",
+      "id": "2",
       "username": "second",
       "email": "testrmail@mama.il",
       "content": "Make a tea",
@@ -20,6 +20,20 @@
       "email": "testrmail@mama.il",
       "content": "Task content",
       "state": 1
+    },
+    {
+      "id": "4",
+      "username": "testasdasd",
+      "email": "testrmail@mama.il",
+      "content": "<scripasdasdasdasdasdt>alert(‘test’);</script>",
+      "state": 0
+    },
+    {
+      "id": "5",
+      "username": "second",
+      "email": "testrmail@mama.il",
+      "content": "Make a tea",
+      "state": 0
     }
   ]
 }

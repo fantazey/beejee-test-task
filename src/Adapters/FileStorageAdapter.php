@@ -39,7 +39,7 @@ class FileStorageAdapter implements IStorageAdapter
      * @param string $modelName
      * @return array
      */
-    private function loadAll(string $modelName)
+    private function loadAll(string $modelName): array
     {
         $records = [];
         $model = 'App\Model\\' . ucfirst($modelName) . 'Model';
@@ -81,5 +81,13 @@ class FileStorageAdapter implements IStorageAdapter
     public function find(string $modelName, int $id)
     {
         return $this->findOneByField($modelName, 'id', $id);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function count(string $modelName): int
+    {
+        return count($this->loadAll($modelName));
     }
 }

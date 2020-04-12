@@ -16,4 +16,18 @@
         <?php
     }
     ?>
+
+    <div>
+        <?php
+            $pages = $this->paginator->getPages();
+            foreach ($pages as $page) {
+                ?>
+                <span style="width:50px; height: 50px; color: black; background-color: lightblue"
+                      class="<?=$page['isActive'] ? 'active' : ''?>">
+                    <a href="/?page=<?=$page['page']?>"><?=$page['page']?></a>
+                </span>
+        <?php
+            }
+        ?>
+    </div>
 </ul>

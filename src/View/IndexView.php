@@ -3,19 +3,20 @@
 namespace App\View;
 
 use App\Model\TaskModel;
+use App\Util\Paginator;
 
 class IndexView
 {
     private $content;
     private $tasks;
+    private $paginator;
+    private $errors;
 
-    private function getLayoutPath($layout) {
-        return __DIR__ . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . $layout . '.phtml';
-    }
-
-    public function __construct(array $tasks)
+    public function __construct(array $tasks, array $errors, Paginator $paginator)
     {
         $this->tasks = $tasks;
+        $this->errors = $errors;
+        $this->paginator = $paginator;
     }
 
     public function __destruct()
@@ -28,5 +29,9 @@ class IndexView
         ob_clean();
         require $this->getLayoutPath('index');
         $this->content = ob_get_clean();
+    }
+
+    private function getLayoutPath($layout) {
+        return __DIR__ . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . $layout . '.phtml';
     }
 }

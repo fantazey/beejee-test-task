@@ -24,4 +24,10 @@ interface IStorageAdapter
      * @return mixed
      */
     public function find(string $modelName, int $id);
+
+    /**
+     * @param string $modelName
+     * @return int
+     */
+    public function count(string $modelName): int;
 }

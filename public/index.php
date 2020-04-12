@@ -19,10 +19,10 @@ $storageAdapter = new FileStorageAdapter($storageConfig);
 
 $controller = new IndexController($storageAdapter);
 
-$action = $_GET['action'];
+$action = 'index';
 
-if (!isset($action)) {
-    $action = 'index';
+if (isset($_GET['action'])) {
+    $action = $_GET['action'];
 }
 
 $controller->handleAction($action, $_REQUEST);

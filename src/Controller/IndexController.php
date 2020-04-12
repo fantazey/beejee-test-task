@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Adapters\IStorageAdapter;
+use App\Util\Paginator;
 use App\View\IndexView;
 
 class IndexController
@@ -25,8 +26,14 @@ class IndexController
 
     private function indexAction($request)
     {
+        $count = $this->storageAdapter->count('task');
+        $paginator = new Paginator($count);
         $tasks = $this->storageAdapter->findAll('task');
-        $view = new IndexView($tasks);
+        if (isset($_REQUEST['page'])) {
+            $paginator->setCurrentPage((int)$_REQUEST['page']);
+        }
+        $pageTasks = array_slice($tasks, $paginator->getOffset(), $paginator->getLimit());
+        $view = new IndexView($pageTasks, [], $paginator);
         $view->render();
     }
 }

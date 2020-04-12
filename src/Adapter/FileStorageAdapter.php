@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Adapters;
+namespace App\Adapter;
 
-use App\Model\{IModel,TaskModel};
-
+use App\Model\{IModel};
 
 class FileStorageAdapter implements IStorageAdapter
 {
@@ -37,41 +36,51 @@ class FileStorageAdapter implements IStorageAdapter
         }
     }
 
+    private function loadData()
+    {
+        $fileContent = file_get_contents($this->fileName);
+        return json_decode($fileContent, true);
+    }
+
+    private function saveData(array $data)
+    {
+        $fileContent = json_encode($data);
+        file_put_contents($this->fileName, $fileContent);
+    }
+
     /**
      * @param string $modelName
      * @return mixed
      */
     private function loadRecords(string $modelName): ?array
     {
-        $fileContent = file_get_contents($this->fileName);
-        $data = json_decode($fileContent, true);
+        $data = $this->loadData();
         if (array_key_exists($modelName, $data)) {
             return $data[$modelName];
         }
         return null;
     }
 
-    private function getLastId(string $modelName): int
+    public function create(string $modelName, array $record)
     {
-        $fileContent = file_get_contents($this->fileName);
-        $data = json_decode($fileContent, true);
-        $key = $modelName . '_last_id';
-        if (array_key_exists($key, $data)) {
-            return $data[$key];
-        }
-        return 0;
-    }
-
-    private function saveRecord(string $modelName, array $record): ?bool
-    {
-        $fileContent = file_get_contents($this->fileName);
-        $data = json_decode($fileContent, true);
+        $data = $this->loadData();
         $lastIdKey = $modelName . '_last_id';
+        $lastId = $data[$lastIdKey];
+        $record['id'] = $lastId + 1;
         $data[$modelName][] = $record;
         $data[$lastIdKey] = $record['id'];
-        $fileContent = json_encode($data);
-        file_put_contents($this->fileName, $fileContent);
-        return true;
+        $this->saveData($data);
+    }
+
+    public function save(string $modelName, array $record)
+    {
+        $data = $this->loadData();
+        foreach ($data[$modelName] as &$item) {
+            if ($item['id'] === $record['id']) {
+                $item = $record;
+            }
+        }
+        $this->saveData($data);
     }
 
     /**
@@ -106,8 +115,9 @@ class FileStorageAdapter implements IStorageAdapter
     public function findOneByField(string $modelName, string $fieldName, $value)
     {
         $records = $this->findAll($modelName);
+        $getter = 'get' . ucfirst($fieldName);
         foreach ($records as $record) {
-            if ($record[$fieldName] === $value) {
+            if ($record->$getter() === $value) {
                 return $record;
             }
         }
@@ -128,24 +138,5 @@ class FileStorageAdapter implements IStorageAdapter
     public function count(string $modelName): int
     {
         return count($this->loadAll($modelName));
-    }
-
-    public function createRecord(string $modelName, array $data): ?bool
-    {
-        $method = 'create' . ucfirst($modelName);
-        if (method_exists($this, $method)) {
-            return $this->$method($data);
-        }
-        return null;
-    }
-
-    private function createTask(array $data)
-    {
-        $lastId = $this->getLastId('task');
-        $newId = $lastId + 1;
-        $task = new TaskModel();
-        $task->fromArray($data);
-        $task->setId($newId);
-        return $this->saveRecord('task', $task->serialize());
     }
 }

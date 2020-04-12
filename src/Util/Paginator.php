@@ -34,7 +34,7 @@ class Paginator
         $this->total = $total;
         $this->limit = $limit;
         $this->currentPage = 1;
-        $this->pageCount = ceil($this->total / $this->limit);
+        $this->pageCount = (int)ceil($this->total / $this->limit);
     }
 
     /**
@@ -43,6 +43,11 @@ class Paginator
     public function setCurrentPage(int $current)
     {
         $this->currentPage = $current;
+    }
+
+    public function getCurrentPage(): int
+    {
+        return $this->currentPage;
     }
 
     /**

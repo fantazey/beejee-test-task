@@ -1,18 +1,20 @@
 <?php
 namespace App\Controller;
 
-use App\Adapters\IStorageAdapter;
+use App\Adapter\IStorageAdapter;
+use App\Manager\TaskManager;
+use App\Model\TaskModel;
 use App\Util\Paginator;
 use App\View\IndexView;
 
 class IndexController
 {
-    /** @var IStorageAdapter $storageAdapter*/
-    private $storageAdapter;
+    /** @var TaskManager $taskManager*/
+    private $taskManager;
 
-    public function __construct(IStorageAdapter $storageAdapter)
+    public function __construct(TaskManager $taskManager)
     {
-        $this->storageAdapter = $storageAdapter;
+        $this->taskManager = $taskManager;
     }
 
     public function handleAction(string $action, $request)
@@ -36,22 +38,45 @@ class IndexController
     private function createtaskAction($request)
     {
         $errors = [];
+        $res = $this->taskManager->create($request);
+        if ($res !== true) {
+            $errors[] = $res;
+        }
+        $this->renderView(1, $errors);
+    }
+
+    private function markdoneAction($request)
+    {
+        $errors = [];
+        $id = $request['id'];
+        $page = $request['page'];
         try {
-            $this->storageAdapter->createRecord('task', $request);
+            /** @var TaskModel $task */
+            $this->taskManager->markAsDone($id);
         } catch (\Exception $e) {
             $errors[] = $e->getMessage();
         }
-        return $this->renderView(1, $errors);
+        $this->renderView($page, $errors);
+    }
+
+    private function edittaskAction($request)
+    {
+        $errors = [];
+        $page = $request['page'];
+        $res = $this->taskManager->update($request);
+        if ($res !== true) {
+            $errors[] = $res;
+        }
+        $this->renderView($page, $errors);
     }
 
     public function renderView($page = 1, array $errors = [])
     {
-        $count = $this->storageAdapter->count('task');
+        $count = $this->taskManager->count();
         $paginator = new Paginator($count);
-        $tasks = $this->storageAdapter->findAll('task');
         $paginator->setCurrentPage($page);
-        $pageTasks = array_slice($tasks, $paginator->getOffset(), $paginator->getLimit());
-        $view = new IndexView($pageTasks, $errors, $paginator);
+        $tasks = $this->taskManager->list($paginator->getLimit(), $paginator->getOffset());
+        $view = new IndexView($tasks, $errors, $paginator);
         $view->render();
     }
 }

@@ -1,5 +1,6 @@
 <?php
-use App\Adapters\FileStorageAdapter;
+use App\Adapter\FileStorageAdapter;
+use App\Manager\TaskManager;
 use App\Controller\IndexController;
 
 function taskAutoloader($className) {
@@ -17,7 +18,8 @@ $storageConfig = $appConfig['storage'][$useStorage];
 
 $storageAdapter = new FileStorageAdapter($storageConfig);
 
-$controller = new IndexController($storageAdapter);
+$taskManager = new TaskManager($storageAdapter);
+$controller = new IndexController($taskManager);
 
 $action = 'index';
 

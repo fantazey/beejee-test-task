@@ -1,0 +1,25 @@
+{
+  "task":[
+    {
+      "id": "1",
+      "username": "test",
+      "email": "testrmail@mama.il",
+      "content": "<script>alert(‘test’);</script>",
+      "state": 0
+    },
+    {
+      "id": "4",
+      "username": "second",
+      "email": "testrmail@mama.il",
+      "content": "Make a tea",
+      "state": 0
+    },
+    {
+      "id": "3",
+      "username": "one more",
+      "email": "testrmail@mama.il",
+      "content": "Task content",
+      "state": 1
+    }
+  ]
+}

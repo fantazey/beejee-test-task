@@ -1,6 +1,28 @@
-<h1>
+<h2>
+    Create Task
+</h2>
+
+<form action="/?action=createtask" method="post">
+    <div>
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username">
+    </div>
+    <div>
+        <label for="email">E-mail</label>
+        <input type="text" id="email" name="email">
+    </div>
+    <div>
+        <label for="content">Content</label>
+        <textarea id="content" name="content"></textarea>
+    </div>
+    <div>
+        <button type="submit">Create Task</button>
+    </div>
+</form>
+
+<h2>
     Tasks
-</h1>
+</h2>
 
 <ul>
     <?php

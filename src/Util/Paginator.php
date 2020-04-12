@@ -24,6 +24,11 @@ class Paginator
      */
     private $currentPage;
 
+    /**
+     * Paginator constructor.
+     * @param int $total
+     * @param int $limit
+     */
     public function __construct(int $total, int $limit = 3)
     {
         $this->total = $total;
@@ -32,11 +37,17 @@ class Paginator
         $this->pageCount = ceil($this->total / $this->limit);
     }
 
+    /**
+     * @param int $current
+     */
     public function setCurrentPage(int $current)
     {
         $this->currentPage = $current;
     }
 
+    /**
+     * @return array
+     */
     public function getPages(): array
     {
         $pages = [];
@@ -49,11 +60,17 @@ class Paginator
         return $pages;
     }
 
+    /**
+     * @return int
+     */
     public function getLimit(): int
     {
         return $this->limit;
     }
 
+    /**
+     * @return int
+     */
     public function getOffset(): int
     {
         return ($this->currentPage - 1 ) * $this->limit;

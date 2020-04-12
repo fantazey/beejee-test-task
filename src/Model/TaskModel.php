@@ -84,11 +84,11 @@ class TaskModel implements IModel
     }
 
     /**
-     * @param int $state
+     * @param null|int $state
      */
-    public function setState(int $state)
+    public function setState(?int $state)
     {
-        $this->state = $state;
+        $this->state = $state ?? self::STATE_ACTIVE;
     }
 
     /**
@@ -114,7 +114,9 @@ class TaskModel implements IModel
 
     public function fromArray(array $data)
     {
-        $this->setId($data['id']);
+        if ($data['id']) {
+            $this->setId($data['id']);
+        }
         $this->setUsername($data['username']);
         $this->setEmail($data['email']);
         $this->setContent($data['content']);
@@ -124,6 +126,7 @@ class TaskModel implements IModel
     public function serialize(): array
     {
         return [
+            'id' => $this->getId(),
             'username' => $this->getUsername(),
             'email' => $this->getEmail(),
             'content' => $this->getContent(),

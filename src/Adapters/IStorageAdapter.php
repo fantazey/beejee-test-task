@@ -30,4 +30,11 @@ interface IStorageAdapter
      * @return int
      */
     public function count(string $modelName): int;
+
+    /**
+     * @param string $modelName
+     * @param array $data
+     * @return mixed
+     */
+    public function createRecord(string $modelName, array $data);
 }

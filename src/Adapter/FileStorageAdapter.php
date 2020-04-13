@@ -15,7 +15,7 @@ class FileStorageAdapter implements IStorageAdapter
         'task_last_id' => 0,
         'task' => [],
         'user_last_id' => 1,
-        'user' => ['id' => 1, 'username' => 'admin', 'password' => '123']
+        'user' => [ 0 => ['id' => 1, 'username' => 'admin', 'password' => '123']]
     ];
 
     /**

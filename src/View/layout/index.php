@@ -46,7 +46,7 @@
         </h3>
         <section class="row justify-content-center">
             <table class="table table-striped">
-                <thead> ↑ ᐃ ↓ ᐁ
+                <thead>
                     <tr>
                         <th>Username<a class="ml-2 badge badge-secondary" href="<?=$this->paginator->getHrefToSort('username')?>"><?=$this->paginator->getSortSymbol('username')?></a></th>
                         <th>Email<a class="ml-2 badge badge-secondary" href="<?=$this->paginator->getHrefToSort('email')?>"><?=$this->paginator->getSortSymbol('email')?></a></th>
@@ -64,7 +64,24 @@
                                 <span title="<?=$values['email']?>"><?=$values['email']?></span>
                             </td>
                             <td>
-                                <?=$values['content']?>
+                                <div class="task-content" id="content_<?=$values['id']?>">
+                                    <?=$values['content']?>
+                                    <?php if ($this->hasUser) {?>
+                                        <span class="badge badge-secondary toggle-edit" onclick="toggleEdit(<?=$values['id']?>)">✎</span>
+                                    <?php } ?>
+                                </div>
+                                <div class="edit-form" style="display:none" id="form_<?=$values['id']?>">
+                                    <form method="post" action="/?action=edittask">
+                                        <div class="form-group">
+                                            <textarea class="form-control" name="content" cols="10" rows="3"><?=$values['content']?></textarea>
+                                            <input type="hidden" name="id" value="<?=$values['id']?>">
+                                            <input type="hidden" name="page" value="<?=$this->paginator->getCurrentPage()?>">
+                                        </div>
+                                        <div class="form-group">
+                                            <button class="btn btn-info close-task" type="submit">Save</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </td>
                             <td>
                                 <?php if ($values['isActive']) { ?>
@@ -101,5 +118,12 @@
     }
     function logoutRedirect() {
         window.location = '/?action=logout'
+    }
+    function toggleEdit(id) {
+        const form = document.querySelector('#form_' + id);
+        const content = document.querySelector('#content_' + id);
+        content.style.display = 'none';
+        form.style.display = 'block';
+        debugger;
     }
 </script>

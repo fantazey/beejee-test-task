@@ -62,22 +62,24 @@ class TaskManager
 
     public function update(array $data)
     {
-        list($valid, $errors) = $this->validateData($data);
-        if (!$valid) {
-            return 'Error. Incorrect fields:' . implode(', ', $errors);
-        }
         /** @var TaskModel $task */
         $task = $this->findById($data['id']);
         if (!$task) {
             return 'Error. Record not found';
         }
+        $data = array_merge($task->serialize(), $data);
+        list($valid, $errors) = $this->validateData($data);
+        if (!$valid) {
+            return 'Error. Incorrect fields:' . implode(', ', $errors);
+        }
+
         try {
             $task->fromArray($data);
             $this->save($task);
+            return true;
         } catch (\Exception $e) {
             return $e->getMessage();
         }
-
     }
 
     public function save(TaskModel $task)

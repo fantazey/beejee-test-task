@@ -26,6 +26,9 @@ class UserManager
         }
         /** @var UserModel $user */
         $user = $this->storage->findOneByField('user', 'username', $username);
+        if (!$user) {
+            return 'Auth error. Wrong user';
+        }
         if ($password !== $user->getPassword()) {
             return 'Auth error. Wrong password';
         }

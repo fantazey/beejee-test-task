@@ -90,9 +90,20 @@ class TaskManager
         return $this->storage->find('task', $id);
     }
 
-    public function list(int $limit, int $offset)
+    public function list(int $limit, int $offset, ?string $sortField, ?string $sortOrder)
     {
+
         $tasks = $this->storage->findAll('task');
+        if ($sortOrder) {
+            usort($tasks, function ($a, $b) use ($sortField, $sortOrder) {
+                $field = 'get' . ucfirst($sortField);
+                if ($sortOrder === 'asc') {
+                    return $a->{$field}() > $b->{$field}();
+                }
+                return $a->{$field}() < $b->{$field}();
+            });
+        }
+
         return array_slice($tasks, $offset, $limit);
     }
 

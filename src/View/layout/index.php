@@ -46,12 +46,12 @@
         </h3>
         <section class="row justify-content-center">
             <table class="table table-striped">
-                <thead>
+                <thead> ↑ ᐃ ↓ ᐁ
                     <tr>
-                        <th>Username</th>
-                        <th>Email</th>
+                        <th>Username<a class="ml-2 badge badge-secondary" href="<?=$this->paginator->getHrefToSort('username')?>"><?=$this->paginator->getSortSymbol('username')?></a></th>
+                        <th>Email<a class="ml-2 badge badge-secondary" href="<?=$this->paginator->getHrefToSort('email')?>"><?=$this->paginator->getSortSymbol('email')?></a></th>
                         <th>Content</th>
-                        <th>State</th>
+                        <th>State<a class="ml-2 badge badge-secondary" href="<?=$this->paginator->getHrefToSort('state')?>"><?=$this->paginator->getSortSymbol('state')?></a></th>
                     </tr>
                     </thead>
                 <tbody>
@@ -74,6 +74,8 @@
                                             <input type="hidden" name="page" value="<?=$this->paginator->getCurrentPage()?>">
                                             <button class="btn btn-info close-task">Complete</button>
                                         </form>
+                                    <?php } else { ?>
+                                        <span class="btn btn-success disabled">Task active</span>
                                     <?php } ?>
                                 <?php } else { ?>
                                     <span class="btn btn-success disabled">Task completed</span>
@@ -85,7 +87,9 @@
             </table>
             <ul class="pagination">
                 <?php foreach ($this->paginator->getPages() as $page) { $pageClass = $page['isActive'] ? 'active' : ''; ?>
-                    <li class="page-item <?=$pageClass?>"><a class="page-link" href="?page=<?=$page['page'];?>"><?=$page['page'];?></a></li>
+                    <li class="page-item <?=$pageClass?>">
+                        <a class="page-link" href="<?=$this->paginator->getHrefToPage($page['page']);?>"><?=$page['page'];?></a>
+                    </li>
                 <?php } ?>
             </ul>
         </section>

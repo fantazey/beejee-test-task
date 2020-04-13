@@ -70,13 +70,30 @@ class IndexController
         $this->renderView($page, $errors);
     }
 
-    public function renderView($page = 1, array $errors = [])
+    private function renderView($page = 1, array $errors = [])
+    {
+        $paginator = $this->initPaginator($page);
+        $tasks = $this->taskManager->list(
+            $paginator->getLimit(),
+            $paginator->getOffset(),
+            $paginator->getSortField(),
+            $paginator->getSortOrder()
+        );
+        $view = new IndexView($tasks, $errors, $paginator);
+        $view->render();
+    }
+
+    private function initPaginator($page): Paginator
     {
         $count = $this->taskManager->count();
         $paginator = new Paginator($count);
         $paginator->setCurrentPage($page);
-        $tasks = $this->taskManager->list($paginator->getLimit(), $paginator->getOffset());
-        $view = new IndexView($tasks, $errors, $paginator);
-        $view->render();
+        if (isset($_REQUEST['sortOrder'])) {
+            $paginator->setSortOrder($_REQUEST['sortOrder']);
+        }
+        if (isset($_REQUEST['sortField'])) {
+            $paginator->setSortField($_REQUEST['sortField']);
+        }
+        return $paginator;
     }
 }

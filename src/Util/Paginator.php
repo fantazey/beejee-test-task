@@ -25,6 +25,16 @@ class Paginator
     private $currentPage;
 
     /**
+     * @var string|null $sortField
+     */
+    private $sortField;
+
+    /**
+     * @var string|null $sortOrder
+     */
+    private $sortOrder;
+
+    /**
      * Paginator constructor.
      * @param int $total
      * @param int $limit
@@ -80,4 +90,79 @@ class Paginator
     {
         return ($this->currentPage - 1 ) * $this->limit;
     }
+
+    /**
+     * @return string|null
+     */
+    public function getSortField(): ?string
+    {
+        return $this->sortField;
+    }
+
+    /**
+     * @param string|null $sortField
+     */
+    public function setSortField(?string $sortField): void
+    {
+        $this->sortField = $sortField;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSortOrder(): ?string
+    {
+        return $this->sortOrder;
+    }
+
+    /**
+     * @param string|null $sortOrder
+     */
+    public function setSortOrder(?string $sortOrder): void
+    {
+        $this->sortOrder = $sortOrder;
+    }
+
+    public function getSortSymbol($field) {
+        if (!$this->sortOrder || $this->sortField !== $field) {
+            return '⇵';
+        }
+        if ($this->sortOrder === 'asc') {
+            return '↑'; // ᐃ
+        }
+        if ($this->sortOrder === 'desc') {
+            return '↓'; // ᐁ
+        }
+
+    }
+
+    public function getHrefToSort($field) {
+        $sortField = $this->sortField;
+        if ($sortField === $field) {
+            switch ($this->sortOrder) {
+                case 'asc':
+                    $nextOrder = 'desc';
+                    break;
+                case null:
+                    $nextOrder = 'asc';
+                    break;
+                case 'desc':
+                default:
+                    $nextOrder = null;
+                    $sortField = null;
+            }
+            $nextOrder = $this->sortOrder === 'asc' ? 'desc' : 'asc';
+            return '/?page=' . $this->currentPage . '&sortOrder=' . $nextOrder . '&sortField=' . $this->sortField;
+        }
+        return '/?page=' . $this->currentPage . '&sortOrder=asc&sortField=' . $field;
+    }
+
+    public function getHrefToPage($pageNum) {
+        $url = '/?page=' . $pageNum;
+        if ($this->sortField) {
+            $url .= '&sortOrder=' . $this->sortOrder . '&sortField=' . $this->sortField;
+        }
+        return $url;
+    }
+
 }

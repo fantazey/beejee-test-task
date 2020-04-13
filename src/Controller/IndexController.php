@@ -42,7 +42,7 @@ class IndexController
         if ($res !== true) {
             $errors[] = $res;
         }
-        $this->renderView(1, $errors);
+        $this->renderView(1, $errors, $res);
     }
 
     private function markdoneAction($request)
@@ -50,13 +50,18 @@ class IndexController
         $errors = [];
         $id = $request['id'];
         $page = $request['page'];
+        $success = false;
         try {
             /** @var TaskModel $task */
             $this->taskManager->markAsDone($id);
         } catch (\Exception $e) {
             $errors[] = $e->getMessage();
         }
-        $this->renderView($page, $errors);
+
+        if (count($errors) === 0) {
+            $success = true;
+        }
+        $this->renderView($page, $errors, $success);
     }
 
     private function edittaskAction($request)
@@ -67,10 +72,10 @@ class IndexController
         if ($res !== true) {
             $errors[] = $res;
         }
-        $this->renderView($page, $errors);
+        $this->renderView($page, $errors, $res);
     }
 
-    private function renderView($page = 1, array $errors = [])
+    private function renderView($page = 1, array $errors = [], bool $actionSuccess = false)
     {
         $paginator = $this->initPaginator($page);
         $tasks = $this->taskManager->list(
@@ -79,7 +84,7 @@ class IndexController
             $paginator->getSortField(),
             $paginator->getSortOrder()
         );
-        $view = new IndexView($tasks, $errors, $paginator);
+        $view = new IndexView($tasks, $errors, $actionSuccess, $paginator);
         $view->render();
     }
 

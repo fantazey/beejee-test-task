@@ -12,13 +12,15 @@ class IndexView
     private $paginator;
     private $errors;
     private $hasUser;
+    private $showSuccessBar;
 
-    public function __construct(array $tasks, array $errors, Paginator $paginator)
+    public function __construct(array $tasks, array $errors, bool $success, Paginator $paginator)
     {
         $this->tasks = $tasks;
         $this->errors = $errors;
         $this->paginator = $paginator;
         $this->hasUser = $_SESSION['authenticated'] === true;
+        $this->showSuccessBar = $success;
     }
 
     public function __destruct()

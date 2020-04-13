@@ -20,6 +20,11 @@
                 <?php } ?>
             </div>
         <?php } ?>
+        <?php if ($this->showSuccessBar) { ?>
+            <div class="alert alert-success" role="alert">
+                <span>Action performed successfully</span>
+            </div>
+        <?php } ?>
         <section class="row justify-content-center">
             <form action="/?action=createtask" method="post">
                 <div class="form-group">

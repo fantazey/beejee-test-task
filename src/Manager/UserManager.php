@@ -21,6 +21,9 @@ class UserManager
 
     public function login(string $username, string $password)
     {
+        if (!$username || !$password) {
+            return 'Auth error. Empty credentials';
+        }
         /** @var UserModel $user */
         $user = $this->storage->findOneByField('user', 'username', $username);
         if ($password !== $user->getPassword()) {

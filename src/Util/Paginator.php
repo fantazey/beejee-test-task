@@ -20,6 +20,14 @@ class Paginator
     private $pageCount;
 
     /**
+     * @return int
+     */
+    public function getPageCount(): int
+    {
+        return $this->pageCount;
+    }
+
+    /**
      * @var int $currentPage
      */
     private $currentPage;

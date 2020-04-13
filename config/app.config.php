@@ -3,7 +3,7 @@ return [
   "storage" => [
       "use" => "file",
       "file" => [
-          "path" => "data/storage.json"
+          "path" => "../data/storage.json"
       ],
   ]
 ];

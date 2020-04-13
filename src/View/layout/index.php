@@ -102,7 +102,7 @@
                     <?php } ?>
                 </tbody>
             </table>
-            <?php if ($this->paginator->pageCount > 0) {?>
+            <?php if ($this->paginator->getPageCount() > 0) {?>
                 <ul class="pagination">
                     <?php foreach ($this->paginator->getPages() as $page) { $pageClass = $page['isActive'] ? 'active' : ''; ?>
                         <li class="page-item <?=$pageClass?>">

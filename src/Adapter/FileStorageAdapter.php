@@ -14,8 +14,8 @@ class FileStorageAdapter implements IStorageAdapter
     private $TEMPLATE_CONTENT = [
         'task_last_id' => 0,
         'task' => [],
-        'admin_last_id' => 0,
-        'admin' => []
+        'user_last_id' => 1,
+        'user' => ['id' => 1, 'username' => 'admin', 'password' => '123']
     ];
 
     /**

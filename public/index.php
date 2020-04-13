@@ -1,4 +1,5 @@
 <?php
+session_start();
 use App\Adapter\FileStorageAdapter;
 use App\Manager\{TaskManager,UserManager};
 use App\Controller\{IndexController,AuthController};
@@ -16,7 +17,6 @@ function taskAutoloader($className) {
 }
 
 spl_autoload_register('taskAutoloader');
-
 $appConfig = require __DIR__ . '/../config/app.config.php';
 
 $useStorage = $appConfig['storage']['use'];
@@ -33,7 +33,7 @@ if (isset($_GET['action'])) {
     $action = $_GET['action'];
 }
 
-if (in_array($action, ['login', 'logout'])) {
+if (in_array($action, ['login', 'auth', 'logout'])) {
     $userManager = new UserManager($storageAdapter);
     $controller = new AuthController($userManager);
 }

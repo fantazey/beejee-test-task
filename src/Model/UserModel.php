@@ -4,7 +4,7 @@
 namespace App\Model;
 
 
-class UserModel
+class UserModel implements IModel
 {
     /** @var int */
     private $id;
@@ -14,9 +14,6 @@ class UserModel
 
     /** @var string */
     private $password;
-
-    /** @var string */
-    private $sessionId;
 
     /**
      * @return int
@@ -66,19 +63,21 @@ class UserModel
         $this->password = $password;
     }
 
-    /**
-     * @return string
-     */
-    public function getSessionId(): string
+    public function fromArray(array $data)
     {
-        return $this->sessionId;
+        if ($data['id']) {
+            $this->setId($data['id']);
+        }
+        $this->setUsername($data['username']);
+        $this->setPassword($data['password']);
     }
 
-    /**
-     * @param string $sessionId
-     */
-    public function setSessionId(string $sessionId): void
+    public function serialize(): array
     {
-        $this->sessionId = $sessionId;
+        return [
+            'id' => $this->getId(),
+            'username' => $this->getUsername(),
+            'password' => $this->getPassword()
+        ];
     }
 }

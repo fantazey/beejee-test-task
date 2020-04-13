@@ -23,12 +23,16 @@ class UserManager
     {
         /** @var UserModel $user */
         $user = $this->storage->findOneByField('user', 'username', $username);
-        if ($password === $user->getPassword()) {
-            session_start();
-            $_SESSION['username'] = $user->getUsername();
-            $sessionId = session_id();
-            $user->setSessionId($sessionId);
-
+        if ($password !== $user->getPassword()) {
+            return 'Auth error. Wrong password';
         }
+        session_start();
+        $_SESSION['authenticated'] = true;
+        return true;
+    }
+
+    public function logout()
+    {
+        $_SESSION = [];
     }
 }

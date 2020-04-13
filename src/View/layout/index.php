@@ -1,8 +1,13 @@
 <div class="row justify-content-right">
     <div class="col offset-11 mt-4">
-        <button class="btn btn-primary" onclick="loginRedirect();">Login</button>
+        <?php if ($this->hasUser) { ?>
+            <button class="btn btn-primary" onclick="logoutRedirect();">Logout</button>
+        <?php } else { ?>
+            <button class="btn btn-primary" onclick="loginRedirect();">Login</button>
+        <?php } ?>
     </div>
 </div>
+
 <div class="row justify-content-center">
     <div class="col col-3">
         <h3 class="row justify-content-center mt-4">
@@ -63,11 +68,13 @@
                             </td>
                             <td>
                                 <?php if ($values['isActive']) { ?>
-                                    <form method="post" action="/?action=markdone">
-                                        <input type="hidden" name="id" value="<?=$values['id']?>">
-                                        <input type="hidden" name="page" value="<?=$this->paginator->getCurrentPage()?>">
-                                        <button class="btn btn-info close-task">Complete</button>
-                                    </form>
+                                    <?php if ($this->hasUser) { ?>
+                                        <form method="post" action="/?action=markdone">
+                                            <input type="hidden" name="id" value="<?=$values['id']?>">
+                                            <input type="hidden" name="page" value="<?=$this->paginator->getCurrentPage()?>">
+                                            <button class="btn btn-info close-task">Complete</button>
+                                        </form>
+                                    <?php } ?>
                                 <?php } else { ?>
                                     <span class="btn btn-success disabled">Task completed</span>
                                 <?php } ?>
@@ -87,5 +94,8 @@
 <script>
     function loginRedirect() {
         window.location = '/?action=login';
+    }
+    function logoutRedirect() {
+        window.location = '/?action=logout'
     }
 </script>

@@ -1,3 +1,8 @@
+<div class="row justify-content-right">
+    <div class="col offset-11 mt-4">
+        <button class="btn btn-primary" onclick="indexRedirect();">Tasks</button>
+    </div>
+</div>
 <div class="row justify-content-center">
     <div class="col col-3">
         <?php if (count($this->errors) > 0) { ?>
@@ -24,3 +29,8 @@
         </section>
     </div>
 </div>
+<script>
+    function indexRedirect() {
+        window.location = '/?action=index';
+    }
+</script>

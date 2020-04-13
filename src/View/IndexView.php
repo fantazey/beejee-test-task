@@ -11,12 +11,14 @@ class IndexView
     private $tasks;
     private $paginator;
     private $errors;
+    private $hasUser;
 
     public function __construct(array $tasks, array $errors, Paginator $paginator)
     {
         $this->tasks = $tasks;
         $this->errors = $errors;
         $this->paginator = $paginator;
+        $this->hasUser = $_SESSION['authenticated'] === true;
     }
 
     public function __destruct()

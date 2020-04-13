@@ -35,7 +35,8 @@ class AuthController
     {
         $res = $this->userManager->login($request['username'], $request['password']);
         if ($res === true) {
-            return http_redirect('/');
+            header('Location: /', true, 302);
+            exit();
         }
         $errors[] = $res;
         $view = new AuthView($errors);
@@ -44,6 +45,7 @@ class AuthController
 
     public function logoutAction($request)
     {
+        $this->userManager->logout();
         $view = new AuthView([]);
         $view->render();
     }

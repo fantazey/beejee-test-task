@@ -102,13 +102,15 @@
                     <?php } ?>
                 </tbody>
             </table>
-            <ul class="pagination">
-                <?php foreach ($this->paginator->getPages() as $page) { $pageClass = $page['isActive'] ? 'active' : ''; ?>
-                    <li class="page-item <?=$pageClass?>">
-                        <a class="page-link" href="<?=$this->paginator->getHrefToPage($page['page']);?>"><?=$page['page'];?></a>
-                    </li>
-                <?php } ?>
-            </ul>
+            <?php if ($this->paginator->pageCount > 0) {?>
+                <ul class="pagination">
+                    <?php foreach ($this->paginator->getPages() as $page) { $pageClass = $page['isActive'] ? 'active' : ''; ?>
+                        <li class="page-item <?=$pageClass?>">
+                            <a class="page-link" href="<?=$this->paginator->getHrefToPage($page['page']);?>"><?=$page['page'];?></a>
+                        </li>
+                    <?php } ?>
+                </ul>
+            <?php } ?>
         </section>
     </div>
 </div>

@@ -11,7 +11,7 @@ if (preg_match('/\.(?:png|jpg|jpeg|gif|ico)$/', $_SERVER["REQUEST_URI"])) {
 }
 
 function taskAutoloader($className) {
-    $path = str_replace('App\\', 'src' . DIRECTORY_SEPARATOR, $className);
+    $path = str_replace('App\\', '../src' . DIRECTORY_SEPARATOR, $className);
     $path = str_replace('\\', DIRECTORY_SEPARATOR, $path);
     include $path . '.php';
 }
